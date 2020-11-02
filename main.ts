@@ -1,12 +1,16 @@
 input.onButtonPressed(Button.A, function () {
+    comment.comment("STOP robot!")
     power = 0
     basic.showIcon(IconNames.No)
-    basic.pause(1000)
-})
-input.onButtonPressed(Button.B, function () {
+    radio.sendValue("y", 0)
+    radio.sendValue("x", 0)
+    basic.pause(200)
+    while (!(input.buttonIsPressed(Button.B))) {
+        comment.comment("wait here until button B is pressed")
+    }
     power = 1
     basic.showIcon(IconNames.Happy)
-    basic.pause(1000)
+    basic.pause(200)
 })
 let turn = 0
 let throttle = 0
