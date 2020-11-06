@@ -1,22 +1,37 @@
 input.onButtonPressed(Button.A, function () {
-    comment.comment("STOP robot!")
-    power = 0
-    radio.sendValue("y", 0)
-    radio.sendValue("x", 0)
-    basic.showIcon(IconNames.No)
-    basic.pause(500)
-    while (!(input.buttonIsPressed(Button.B))) {
-        comment.comment("loop here until button B is pressed")
+    if (power) {
+        comment.comment("STOP robot!")
+        power = 0
+        radio.sendValue("y", 0)
+        radio.sendValue("x", 0)
+        basic.showIcon(IconNames.No)
+    } else {
+        comment.comment("DRIVE robot!")
+        power = 1
     }
-    basic.pause(500)
-    power = 1
+    while (input.buttonIsPressed(Button.A)) {
+        comment.comment("wait until button A is released")
+    }
+})
+input.onButtonPressed(Button.AB, function () {
+    radio.sendString("C")
+    basic.showString("A+B")
+})
+input.onButtonPressed(Button.B, function () {
+    radio.sendString("B")
+    basic.showString("B")
+})
+input.onGesture(Gesture.Shake, function () {
+    radio.sendString("C")
+    basic.showIcon(IconNames.Angry)
 })
 let turn = 0
 let throttle = 0
 let power = 0
 comment.comment("connect to robot")
 comment.comment("set UNIQUE group number 1-255")
-radio.setGroup(0)
+radio.setGroup(2)
+radio.setTransmitPower(7)
 basic.showIcon(IconNames.Happy)
 power = 1
 basic.forever(function () {
