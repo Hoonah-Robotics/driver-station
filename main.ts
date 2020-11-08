@@ -1,5 +1,5 @@
 input.onButtonPressed(Button.A, function () {
-    if (power) {
+    if (power > 0) {
         comment.comment("STOP robot!")
         power = 0
         radio.sendValue("y", 0)
@@ -14,15 +14,22 @@ input.onButtonPressed(Button.A, function () {
     }
 })
 input.onButtonPressed(Button.AB, function () {
-    radio.sendString("C")
-    basic.showString("A+B")
+    radio.sendString("AB")
+    basic.showString("AB")
 })
 input.onButtonPressed(Button.B, function () {
-    radio.sendString("B")
-    basic.showString("B")
+    comment.comment("Toggle maximum power")
+    if (power == 1) {
+        power = 0.6
+    } else if (power == 0.6) {
+        power = 1
+    }
+    while (input.buttonIsPressed(Button.B)) {
+        comment.comment("wait until button B is released")
+    }
 })
 input.onGesture(Gesture.Shake, function () {
-    radio.sendString("C")
+    radio.sendString("S")
     basic.showIcon(IconNames.Angry)
 })
 let turn = 0
@@ -35,7 +42,7 @@ radio.setTransmitPower(7)
 basic.showIcon(IconNames.Happy)
 power = 1
 basic.forever(function () {
-    if (power) {
+    if (power != 0) {
         basic.clearScreen()
         comment.comment("throttle by tilt forwards/backwards")
         comment.comment("flat = 0; forwards = -180; backwards = 180")
@@ -52,9 +59,14 @@ basic.forever(function () {
             comment.comment("dead band on roll so nearly flat is still straight (otherwise robot won't drive straight)")
             turn = 0
         }
-        radio.sendValue("y", throttle)
-        radio.sendValue("x", turn)
+        radio.sendValue("y", throttle * power)
+        radio.sendValue("x", turn * power)
         led.plot(2, 2)
+        if (power == 1) {
+            led.plot(4, 0)
+        } else if (power == 0.6) {
+            led.plot(0, 4)
+        }
         if (throttle > 40) {
             led.plot(2, 0)
             led.plot(2, 1)
