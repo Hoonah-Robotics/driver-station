@@ -73,23 +73,23 @@ basic.forever(function () {
         } else if (power == 0.6) {
             led.plot(0, 4)
         }
-        if (throttle > 40) {
+        if (throttle >= 40) {
             led.plot(2, 0)
             led.plot(2, 1)
         } else if (throttle > 20) {
             led.plot(2, 1)
-        } else if (throttle < -40) {
+        } else if (throttle <= -40) {
             led.plot(2, 3)
             led.plot(2, 4)
         } else if (throttle < -20) {
             led.plot(2, 3)
         }
-        if (turn > 40) {
+        if (turn >= 40) {
             led.plot(3, 2)
             led.plot(4, 2)
         } else if (turn > 20) {
             led.plot(3, 2)
-        } else if (turn < -40) {
+        } else if (turn <= -40) {
             led.plot(1, 2)
             led.plot(0, 2)
         } else if (turn < -20) {
