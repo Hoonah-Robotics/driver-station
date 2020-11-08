@@ -20,8 +20,8 @@ input.onButtonPressed(Button.AB, function () {
 input.onButtonPressed(Button.B, function () {
     comment.comment("Toggle maximum power")
     if (power == 1) {
-        power = 0.6
-    } else if (power == 0.6) {
+        power = 0.5
+    } else if (power == 0.5) {
         power = 1
     }
     while (input.buttonIsPressed(Button.B)) {
@@ -37,7 +37,7 @@ let throttle = 0
 let power = 0
 comment.comment("connect to robot")
 comment.comment("set UNIQUE group number 1-255")
-radio.setGroup(2)
+radio.setGroup(0)
 radio.setTransmitPower(7)
 basic.showIcon(IconNames.Happy)
 power = 1
@@ -51,6 +51,9 @@ basic.forever(function () {
         if (throttle > -10 && throttle < 10) {
             comment.comment("dead band on pitch so nearly flat is still STOPPED (otherwise robot will creep)")
             throttle = 0
+        } else {
+            comment.comment("filter noisy accelerometer")
+            throttle = Math.constrain(throttle, -40, 40)
         }
         comment.comment("turn by tilt left/right")
         comment.comment("flat = 0; left tilt = -180; right tilt = 180")
@@ -58,6 +61,9 @@ basic.forever(function () {
         if (turn > -10 && turn < 10) {
             comment.comment("dead band on roll so nearly flat is still straight (otherwise robot won't drive straight)")
             turn = 0
+        } else {
+            comment.comment("filter noisy accelerometer")
+            turn = Math.constrain(turn, -40, 40)
         }
         radio.sendValue("y", throttle * power)
         radio.sendValue("x", turn * power)
