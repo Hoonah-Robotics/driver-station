@@ -20,8 +20,8 @@ input.onButtonPressed(Button.AB, function () {
 input.onButtonPressed(Button.B, function () {
     comment.comment("Toggle maximum power")
     if (power == 1) {
-        power = 0.5
-    } else if (power == 0.5) {
+        power = 0.4
+    } else if (power == 0.4) {
         power = 1
     }
     while (input.buttonIsPressed(Button.B)) {
@@ -70,7 +70,7 @@ basic.forever(function () {
         led.plot(2, 2)
         if (power == 1) {
             led.plot(4, 0)
-        } else if (power == 0.6) {
+        } else {
             led.plot(0, 4)
         }
         if (throttle >= 40) {
