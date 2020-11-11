@@ -20,7 +20,7 @@ input.onButtonPressed(Button.AB, function () {
 input.onButtonPressed(Button.B, function () {
     comment.comment("Toggle maximum power")
     if (power == 1) {
-        power = 0
+        power = 0.4
     } else if (power == 0.4) {
         power = 1
     }
