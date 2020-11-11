@@ -20,7 +20,7 @@ input.onButtonPressed(Button.AB, function () {
 input.onButtonPressed(Button.B, function () {
     comment.comment("Toggle maximum power")
     if (power == 1) {
-        power = 0.4
+        power = 0
     } else if (power == 0.4) {
         power = 1
     }
@@ -33,7 +33,9 @@ input.onGesture(Gesture.Shake, function () {
     basic.showIcon(IconNames.Angry)
 })
 let turn = 0
+let roll = 0
 let throttle = 0
+let pitch = 0
 let power = 0
 comment.comment("connect to robot")
 comment.comment("set UNIQUE group number 1-255")
@@ -47,23 +49,23 @@ basic.forever(function () {
         comment.comment("throttle by tilt forwards/backwards")
         comment.comment("flat = 0; forwards = -180; backwards = 180")
         comment.comment("\"x -1\" to make forwards = 180")
-        throttle = input.rotation(Rotation.Pitch) * -1
-        if (throttle > -10 && throttle < 10) {
+        pitch = input.rotation(Rotation.Pitch) * -1
+        if (pitch > -10 && pitch < 10) {
             comment.comment("dead band on pitch so nearly flat is still STOPPED (otherwise robot will creep)")
             throttle = 0
         } else {
             comment.comment("filter noisy accelerometer")
-            throttle = Math.constrain(throttle, -40, 40)
+            throttle = Math.constrain(pitch, -40, 40)
         }
         comment.comment("turn by tilt left/right")
         comment.comment("flat = 0; left tilt = -180; right tilt = 180")
-        turn = input.rotation(Rotation.Roll)
-        if (turn > -10 && turn < 10) {
+        roll = input.rotation(Rotation.Roll)
+        if (roll > -10 && roll < 10) {
             comment.comment("dead band on roll so nearly flat is still straight (otherwise robot won't drive straight)")
             turn = 0
         } else {
             comment.comment("filter noisy accelerometer")
-            turn = Math.constrain(turn, -40, 40)
+            turn = Math.constrain(roll, -40, 40)
         }
         radio.sendValue("y", throttle * power)
         radio.sendValue("x", turn * power)
