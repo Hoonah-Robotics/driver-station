@@ -8,6 +8,7 @@ input.onButtonPressed(Button.A, function () {
     } else {
         comment.comment("DRIVE robot!")
         power = 1
+        radio.sendValue("P", 1)
     }
     while (input.buttonIsPressed(Button.A)) {
         comment.comment("wait until button A is released")
@@ -20,10 +21,13 @@ input.onButtonPressed(Button.AB, function () {
 input.onButtonPressed(Button.B, function () {
     comment.comment("Toggle maximum power")
     if (power == 1) {
-        power = 0.4
-    } else if (power == 0.4) {
+        power = 2
+    } else if (power == 2) {
+        power = 3
+    } else if (power == 3) {
         power = 1
     }
+    radio.sendValue("P", power)
     while (input.buttonIsPressed(Button.B)) {
         comment.comment("wait until button B is released")
     }
@@ -68,12 +72,14 @@ basic.forever(function () {
             comment.comment("Scale motor power from -255 to 255")
             turn = Math.map(Math.constrain(roll, -40, 40), -40, 40, -255, 255)
         }
-        radio.sendValue("y", throttle * power)
-        radio.sendValue("x", turn * power)
+        radio.sendValue("y", throttle)
+        radio.sendValue("x", turn)
         led.plot(2, 2)
         if (power == 1) {
             led.plot(4, 0)
-        } else {
+        } else if (power == 2) {
+            led.plot(4, 4)
+        } else if (power == 3) {
             led.plot(0, 4)
         }
         if (throttle >= 200) {
