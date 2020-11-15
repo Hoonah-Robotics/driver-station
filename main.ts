@@ -54,7 +54,7 @@ basic.forever(function () {
             throttle = 0
         } else {
             comment.comment("filter noisy accelerometer")
-            comment.comment("\"x -1\" to make forwards = 180")
+            comment.comment("Scale motor power from 255 to -255, so pitch forwards = drive forwards")
             throttle = Math.map(Math.constrain(pitch, -40, 40), -40, 40, 255, -255)
         }
         comment.comment("turn by tilt left/right")
@@ -65,6 +65,7 @@ basic.forever(function () {
             turn = 0
         } else {
             comment.comment("filter noisy accelerometer")
+            comment.comment("Scale motor power from -255 to 255")
             turn = Math.map(Math.constrain(roll, -40, 40), -40, 40, -255, 255)
         }
         radio.sendValue("y", throttle * power)
