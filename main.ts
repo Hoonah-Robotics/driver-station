@@ -15,7 +15,7 @@ input.onButtonPressed(Button.A, function () {
     }
 })
 input.onButtonPressed(Button.AB, function () {
-    radio.sendString("AB")
+    radio.sendValue("AB", 1)
     basic.showString("AB")
 })
 input.onButtonPressed(Button.B, function () {
@@ -33,7 +33,7 @@ input.onButtonPressed(Button.B, function () {
     }
 })
 input.onGesture(Gesture.Shake, function () {
-    radio.sendString("S")
+    radio.sendValue("S", 1)
     basic.showIcon(IconNames.Angry)
 })
 let turn = 0

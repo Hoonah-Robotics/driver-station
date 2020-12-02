@@ -4,7 +4,8 @@
     "dependencies": {
         "core": "*",
         "radio": "*",
-        "pxt-comment-block": "github:iowadave/pxt-comment-block#v0.0.4"
+        "pxt-comment-block": "github:iowadave/pxt-comment-block#v0.0.4",
+        "microphone": "*"
     },
     "files": [
         "main.blocks",
